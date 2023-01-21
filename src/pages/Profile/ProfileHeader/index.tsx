@@ -60,6 +60,7 @@ const ProfileHeader: React.FC<{
   }
 
   const deleteCoverImage = async () => {
+    handleCoverImageOptions()
     await ProfileAPI.deleteCoverImage()
     const newProfile = {
       ...profile,
@@ -69,6 +70,7 @@ const ProfileHeader: React.FC<{
   }
 
   const deleteProfileImage = async () => {
+    handleProfileImageOptions()
     await ProfileAPI.deleteProfileImage()
     const newProfile = {
       ...profile,
