@@ -98,11 +98,11 @@ const updateProfileImage = async ({
 }
 
 const deleteProfileImage = async (): Promise<void> => {
-  await api.post(`${path}/deleteProfileImage`, await getAccessToken())
+  await api.post(`${path}/deleteProfileImage`, {}, await getAccessToken())
 }
 
 const deleteCoverImage = async (): Promise<void> => {
-  await api.post(`${path}/deleteCoverImage`, await getAccessToken())
+  await api.post(`${path}/deleteCoverImage`, {}, await getAccessToken())
 }
 
 const getNotifications = async ({
