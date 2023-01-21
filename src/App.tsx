@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { BrowserRouter } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ import SocketIo from './services/SocketIo'
 
 const App = () => {
   const { user, setUser } = useAuth()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     SocketIo.socketConnect()
@@ -22,7 +23,12 @@ const App = () => {
   const getAuthenticatedUser = async () => {
     const response = await SessionAPI.getAuthenticatedUserProfile()
 
-    setUser(response)
+    await setUser(response)
+    setLoading(false)
+  }
+
+  if (loading) {
+    return <></>
   }
 
   return (
