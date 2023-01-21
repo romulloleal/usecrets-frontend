@@ -1,4 +1,5 @@
-import { INotifications, IProfile, IUser } from '~/interfaces'
+import { INotifications, IPost, IProfile, IUser } from '~/interfaces'
+import { FollowStatus } from '~/interfaces/IProfile'
 import { api } from '~/services/api'
 
 import { getAccessToken } from '../getTokens'
@@ -36,7 +37,11 @@ const getUserProfile = async ({
   totalFollowing: number
   totalFollowers: number
   totalPosts: number
-  followStatus: 'following' | 'request' | 'notFollowing' | 'userProfile'
+  followStatus: FollowStatus
+  initialPosts: {
+    posts: IPost[]
+    hasMore: boolean
+  }
 }> => {
   const response = await api.post(`${path}/getUserProfile`, {
     loggedUserId,

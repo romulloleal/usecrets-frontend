@@ -28,9 +28,13 @@ const CropImage = NiceModal.create(
 
     const save = async () => {
       setLoading(true)
-      await callback(cropperRef.current?.getCanvas()?.toDataURL() as string)
-      setLoading(false)
-      modal.hide()
+      try {
+        await callback(cropperRef.current?.getCanvas()?.toDataURL() as string)
+        setLoading(false)
+        modal.hide()
+      } catch {
+        setLoading(false)
+      }
     }
 
     return (

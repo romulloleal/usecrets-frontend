@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import NiceModal from '@ebay/nice-modal-react'
-import { CircularProgress } from '@mui/material'
 import { Link } from 'react-router-dom'
 
+import { FollowStatus } from '~/interfaces/IProfile'
 import { useAuth } from '~/providers/Auth'
 import FollowAPI from '~/services/FollowAPI'
 import { translate } from '~/utils/Translate'
@@ -11,74 +11,66 @@ import { translate } from '~/utils/Translate'
 import { ActionButton } from './style'
 
 const FollowContainer: React.FC<{
-  followStatus: 'following' | 'request' | 'notFollowing' | 'userProfile'
-  setFollowStatus: (
-    value: 'following' | 'request' | 'notFollowing' | 'userProfile'
-  ) => void
+  followStatus: FollowStatus
+  setFollowStatus: (value: FollowStatus) => void
   userName: string
-}> = ({ followStatus, setFollowStatus, userName }) => {
+  privateProfile: boolean
+}> = ({ followStatus, setFollowStatus, userName, privateProfile }) => {
   const { user } = useAuth()
 
-  const [loading, setLoading] = useState(false)
-
   const followUser = async () => {
-    if (!user) {
-      NiceModal.show('SignUp')
-      return
-    }
-    setLoading(true)
-    const response = await FollowAPI.followUser({ followedUserName: userName })
-    setFollowStatus(response.status)
-    setLoading(false)
+    await checkHasUser()
+
+    setFollowStatus(
+      privateProfile ? FollowStatus.REQUEST : FollowStatus.FOLLOWING
+    )
+    await FollowAPI.followUser({ followedUserName: userName })
   }
 
   const unfollowUser = async () => {
-    if (!user) {
-      NiceModal.show('SignUp')
-      return
-    }
-    setLoading(true)
+    await checkHasUser()
+
+    setFollowStatus(FollowStatus.NOT_FOLLOWING)
     await FollowAPI.unfollowUser({
       followedUserName: userName,
     })
-    setFollowStatus('notFollowing')
-    setLoading(false)
   }
 
   const cancelFollowRequest = async () => {
+    await checkHasUser()
+
+    setFollowStatus(FollowStatus.NOT_FOLLOWING)
+    await FollowAPI.cancelFollowRequest({ followedUserName: userName })
+  }
+
+  const checkHasUser = async () => {
     if (!user) {
       NiceModal.show('SignUp')
-      return
+      return true
     }
-    setLoading(true)
-    await FollowAPI.cancelFollowRequest({ followedUserName: userName })
-    setFollowStatus('notFollowing')
-    setLoading(false)
+
+    return false
   }
 
   return (
     <>
-      {followStatus === 'notFollowing' && (
+      {followStatus === FollowStatus.NOT_FOLLOWING && (
         <ActionButton bgColor='#1565c0' onClick={followUser}>
-          {loading && <CircularProgress color='inherit' size={20} />}
-          {!loading && translate('follow')}
+          {translate('follow')}
         </ActionButton>
       )}
-      {followStatus === 'following' && (
+      {followStatus === FollowStatus.FOLLOWING && (
         <ActionButton onClick={unfollowUser}>
-          {loading && <CircularProgress color='inherit' size={20} />}
-          {!loading && translate('unfollow')}
+          {translate('unfollow')}
         </ActionButton>
       )}
-      {followStatus === 'request' && (
+      {followStatus === FollowStatus.REQUEST && (
         <ActionButton onClick={cancelFollowRequest}>
-          {loading && <CircularProgress color='inherit' size={20} />}
-          {!loading && translate('cancelRequest')}
+          {translate('cancelRequest')}
         </ActionButton>
       )}
-      {followStatus === 'userProfile' && (
+      {followStatus === FollowStatus.USER_PROFILE && (
         <Link to='/editProfile'>
-          {loading && <CircularProgress color='inherit' size={20} />}
           <ActionButton>{translate('editProfile')}</ActionButton>
         </Link>
       )}

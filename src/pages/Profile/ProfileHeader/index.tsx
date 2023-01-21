@@ -7,6 +7,7 @@ import { TfiTrash } from 'react-icons/tfi'
 
 import FileUpload from '~/components/FileUpload'
 import { IProfile } from '~/interfaces'
+import { FollowStatus } from '~/interfaces/IProfile'
 import ProfileAPI from '~/services/ProfileAPI'
 
 import {
@@ -21,7 +22,8 @@ import {
 const ProfileHeader: React.FC<{
   profile?: IProfile
   setProfile: (profile: IProfile) => void
-}> = ({ profile, setProfile }) => {
+  followStatus: FollowStatus
+}> = ({ profile, setProfile, followStatus }) => {
   const [showCoverChangeImageOptions, setShowCoverChangeImageOptions] =
     useState(false)
   const [showProfileChangeImageOptions, setShowProfileChangeImageOptions] =
@@ -56,33 +58,53 @@ const ProfileHeader: React.FC<{
     }
     setProfile(newProfile as IProfile)
   }
+
+  const deleteCoverImage = async () => {
+    await ProfileAPI.deleteCoverImage()
+    const newProfile = {
+      ...profile,
+      coverImage: '',
+    }
+    setProfile(newProfile as IProfile)
+  }
+
+  const deleteProfileImage = async () => {
+    await ProfileAPI.deleteProfileImage()
+    const newProfile = {
+      ...profile,
+      profileImage: '',
+    }
+    setProfile(newProfile as IProfile)
+  }
   return (
     <ProfileCover
       coverImage={`${process.env.REACT_APP_IMAGES_REPOSITORY_URL}/files/cover/${profile?.coverImage}`}
     >
-      <ChangeCoverImage>
-        <BsFillCameraFill onClick={handleCoverImageOptions} />
-        {showCoverChangeImageOptions && (
-          <ChangeImageOptions>
-            <FileUpload
-              uploadComponent={
-                <ChangeImageOption>
-                  <AiOutlinePicture />
-                  Selecionar imagem
-                </ChangeImageOption>
-              }
-              aspectRatio={2 / 0.5}
-              cropImage
-              callback={updateCoverImage}
-            />
+      {followStatus === FollowStatus.USER_PROFILE && (
+        <ChangeCoverImage>
+          <BsFillCameraFill onClick={handleCoverImageOptions} />
+          {showCoverChangeImageOptions && (
+            <ChangeImageOptions>
+              <FileUpload
+                uploadComponent={
+                  <ChangeImageOption>
+                    <AiOutlinePicture />
+                    Selecionar imagem
+                  </ChangeImageOption>
+                }
+                aspectRatio={2 / 0.5}
+                cropImage
+                callback={updateCoverImage}
+              />
 
-            <ChangeImageOption>
-              <TfiTrash />
-              Remover imagem
-            </ChangeImageOption>
-          </ChangeImageOptions>
-        )}
-      </ChangeCoverImage>
+              <ChangeImageOption onClick={deleteCoverImage}>
+                <TfiTrash />
+                Remover imagem
+              </ChangeImageOption>
+            </ChangeImageOptions>
+          )}
+        </ChangeCoverImage>
+      )}
       <ProfileImage>
         {profile?.profileImage ? (
           <img
@@ -92,28 +114,30 @@ const ProfileHeader: React.FC<{
         ) : (
           <FaUser className='defaultProfileImage' />
         )}
-        <ChangeProfileImage>
-          <BsFillCameraFill onClick={handleProfileImageOptions} />
-          {showProfileChangeImageOptions && (
-            <ChangeImageOptions>
-              <FileUpload
-                uploadComponent={
-                  <ChangeImageOption>
-                    <AiOutlinePicture />
-                    Selecionar imagem
-                  </ChangeImageOption>
-                }
-                aspectRatio={1 / 1}
-                cropImage
-                callback={updateProfileImage}
-              />
-              <ChangeImageOption>
-                <TfiTrash />
-                Remover imagem
-              </ChangeImageOption>
-            </ChangeImageOptions>
-          )}
-        </ChangeProfileImage>
+        {followStatus === FollowStatus.USER_PROFILE && (
+          <ChangeProfileImage>
+            <BsFillCameraFill onClick={handleProfileImageOptions} />
+            {showProfileChangeImageOptions && (
+              <ChangeImageOptions>
+                <FileUpload
+                  uploadComponent={
+                    <ChangeImageOption>
+                      <AiOutlinePicture />
+                      Selecionar imagem
+                    </ChangeImageOption>
+                  }
+                  aspectRatio={1 / 1}
+                  cropImage
+                  callback={updateProfileImage}
+                />
+                <ChangeImageOption onClick={deleteProfileImage}>
+                  <TfiTrash />
+                  Remover imagem
+                </ChangeImageOption>
+              </ChangeImageOptions>
+            )}
+          </ChangeProfileImage>
+        )}
       </ProfileImage>
     </ProfileCover>
   )

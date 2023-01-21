@@ -13,7 +13,13 @@ import { translate } from '~/utils/Translate'
 
 import FileUpload from '../../FileUpload'
 
-import { BoxStyle, TextFieldBottom } from './style'
+import {
+  CreatePostLayout,
+  TextContent,
+  Options,
+  PostFile,
+  CloseButton,
+} from './style'
 import { CreatePostProps } from './types'
 
 const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
@@ -48,13 +54,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
   const onPaste = async (event: React.ClipboardEvent<HTMLDivElement>) => {
     const element = event.clipboardData.files
     const fileElement = element[0]
-
-    imageToBase64(fileElement, setBase64Image)
+    if (element.length >= 1) imageToBase64(fileElement, setBase64Image)
   }
 
   return (
-    <BoxStyle sx={{ mb: 1 }}>
-      <div className='textField'>
+    <CreatePostLayout sx={{ mb: 1 }}>
+      <TextContent>
         <TextField
           onChange={checkTextLimit}
           variant='standard'
@@ -70,25 +75,23 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
         />
 
         {base64Image && (
-          <div className='file'>
-            <div
+          <PostFile>
+            <CloseButton
               className='close'
               aria-hidden
               onClick={() => setBase64Image(undefined)}
             >
               <GrClose className='closeIcon' />
-            </div>
+            </CloseButton>
             <img src={base64Image} alt='' />
-          </div>
+          </PostFile>
         )}
-      </div>
+      </TextContent>
 
-      <TextFieldBottom>
+      <Options>
         <FileUpload
           uploadComponent={<FcAddImage size={40} />}
-          // callback={setBase64Image}
-          callback={() => console.log('aa')}
-          cropImage
+          callback={setBase64Image}
         />
 
         <Button
@@ -109,8 +112,8 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
           progress={(post.length / 300) * 100}
           charsRemain={300 - post.length}
         />
-      </TextFieldBottom>
-    </BoxStyle>
+      </Options>
+    </CreatePostLayout>
   )
 }
 

@@ -1,15 +1,12 @@
 import { useState } from 'react'
 
 import NiceModal from '@ebay/nice-modal-react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { FaUser, FaRegHeart, FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import { IPost } from '~/interfaces'
 import { useAuth } from '~/providers/Auth'
 import PostAPI from '~/services/PostAPI'
-import { translate } from '~/utils/Translate'
 
 import {
   PostContainer,
@@ -19,6 +16,7 @@ import {
   Header,
   ProfileImage,
   Author,
+  ContentText,
 } from './style'
 
 interface CardProps extends IPost {
@@ -78,14 +76,7 @@ const Post = ({
         </Link>
       )}
 
-      {text && (
-        <CopyToClipboard
-          text={text}
-          onCopy={() => toast.success(translate('textCopy'))}
-        >
-          <div className='content-text'>{text}</div>
-        </CopyToClipboard>
-      )}
+      <ContentText>{text}</ContentText>
 
       {image && (
         <PostImage

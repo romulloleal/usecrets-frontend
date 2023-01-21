@@ -5,3 +5,10 @@ export interface IProfile {
   coverImage: string
   privateProfile: boolean
 }
+
+export enum FollowStatus {
+  REQUEST = 'request',
+  FOLLOWING = 'following',
+  NOT_FOLLOWING = 'notFollowing',
+  USER_PROFILE = 'userProfile',
+}

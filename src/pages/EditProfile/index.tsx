@@ -27,15 +27,21 @@ const EditProfile: React.FC = () => {
   const handleSaveProfile = async () => {
     setLoading(true)
 
-    const response = await ProfileAPI.editProfile({
-      userName,
-      privateProfile,
-      currentPassword,
-      newPassword,
-    })
+    try {
+      const response = await ProfileAPI.editProfile({
+        userName,
+        privateProfile,
+        currentPassword,
+        newPassword,
+      })
 
-    setUser(response)
-    setLoading(false)
+      console.log(response)
+
+      setUser(response)
+      setLoading(false)
+    } catch {
+      setLoading(false)
+    }
   }
 
   return (

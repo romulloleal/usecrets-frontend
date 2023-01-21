@@ -13,11 +13,6 @@ export const PostContainer = styled.div`
   @media (min-width: 600px) {
     border-radius: 8px;
   }
-
-  .content-text {
-    padding: 5px;
-    cursor: pointer;
-  }
 `
 
 export const Header = styled.div`
@@ -62,6 +57,10 @@ export const Author = styled.div`
   justify-content: center;
 `
 
+export const ContentText = styled.div`
+  padding: 5px;
+`
+
 export const PostImage = styled.img`
   width: 100%;
   cursor: pointer;
@@ -73,6 +72,7 @@ export const PostOptions = styled.div`
   align-items: center;
   margin-top: 10px;
   padding-bottom: 15px;
+  user-select: none;
 
   svg {
     font-size: 1.5em;

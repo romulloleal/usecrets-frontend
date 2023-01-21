@@ -138,9 +138,6 @@ const NotificationsComponent: React.FC<{ show: boolean }> = ({ show }) => {
                 {notification.notificationType ===
                   NotificationTypes.POST_LIKED && translate('likeYourPost')}
               </NotificationDescription>
-              {/* {notification.newNotification && (
-                <div className='newNotification' />
-              )} */}
             </NotificationsItem>
           ))}
       </InfiniteScroll>

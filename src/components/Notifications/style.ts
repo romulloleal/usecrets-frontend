@@ -48,13 +48,6 @@ export const NotificationsItem = styled.div`
     margin-right: 3px;
     cursor: pointer;
   }
-
-  .newNotification {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background-color: #fa4848;
-  }
 `
 
 export const ProfileImage = styled(Link)`
