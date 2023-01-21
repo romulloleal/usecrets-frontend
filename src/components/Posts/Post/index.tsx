@@ -43,15 +43,15 @@ const Post = ({
   }
 
   const likeSecret = async () => {
-    await PostAPI.likeUnLikePost({ postId: id })
     setIsLiked(true)
     setTotalLikes(totalLikes + 1)
+    await PostAPI.likeUnLikePost({ postId: id })
   }
 
   const unLikeSecret = async () => {
-    await PostAPI.likeUnLikePost({ postId: id })
     setIsLiked(false)
     setTotalLikes(totalLikes - 1)
+    await PostAPI.likeUnLikePost({ postId: id })
   }
 
   const seeImg = () => {
