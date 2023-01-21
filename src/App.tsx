@@ -10,7 +10,7 @@ import SocketIo from './services/SocketIo'
 
 const App = () => {
   const { user, setUser } = useAuth()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     SocketIo.socketConnect()
@@ -21,6 +21,7 @@ const App = () => {
 
   // get user data when access system for sync data
   const getAuthenticatedUser = async () => {
+    setLoading(true)
     const response = await SessionAPI.getAuthenticatedUserProfile()
 
     await setUser(response)
