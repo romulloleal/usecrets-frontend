@@ -1,0 +1,104 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "eslint-plugin-import-helpers"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "no-shadow": "off",
+    "no-promise-executor-return": "off",
+    "no-nested-ternary": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unused-prop-types": "warn",
+    "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
+    "camelcase": "off",
+    "no-console": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "import/no-unresolved": "error",
+    "no-param-reassign": "off",
+    "no-use-before-define": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "dot-notation": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": [
+          "function-declaration",
+          "function-expression",
+          "arrow-function"
+        ]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".tsx", ".ts", ".json"]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+        "css": "never"
+      }
+    ],
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          ["/^react$/"],
+          "module",
+          ["/^~/"],
+          ["parent"],
+          ["sibling", "index"]
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "paths": ["src"],
+        "extensions": [".ts", ".tsx", ".js", ".jsx"],
+        "moduleDirectory": ["node_modules/**", "src/"]
+      }
+    }
+  }
+}
