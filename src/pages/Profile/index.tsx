@@ -48,6 +48,7 @@ const Profile: React.FC = () => {
 
   const getUserProfile = async () => {
     setLoading(true)
+    setProfile(undefined)
 
     const response = await ProfileAPI.getUserProfile({
       userName,
