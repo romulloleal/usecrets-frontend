@@ -23,7 +23,7 @@ const editProfile = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const getUserProfile = async ({
@@ -48,7 +48,7 @@ const getUserProfile = async ({
     userName,
   })
 
-  return response.data
+  return response.data.data
 }
 
 const searchProfiles = async ({
@@ -60,7 +60,7 @@ const searchProfiles = async ({
     search,
   })
 
-  return response.data
+  return response.data.data
 }
 
 const updateCoverImage = async ({
@@ -77,7 +77,7 @@ const updateCoverImage = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const updateProfileImage = async ({
@@ -94,7 +94,7 @@ const updateProfileImage = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const deleteProfileImage = async (): Promise<void> => {
@@ -118,7 +118,7 @@ const getNotifications = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 export default {

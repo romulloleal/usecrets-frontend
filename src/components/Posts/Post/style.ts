@@ -59,6 +59,7 @@ export const Author = styled.div`
 
 export const ContentText = styled.div`
   padding: 5px;
+  white-space: pre-wrap;
 `
 
 export const PostImage = styled.img`

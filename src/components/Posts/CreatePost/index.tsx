@@ -23,16 +23,17 @@ import {
 import { CreatePostProps } from './types'
 
 const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
-  const [post, setPost] = useState('')
+  const [textPost, setTextPost] = useState('')
   const [base64Image, setBase64Image] = useState<string | undefined>()
   const [isPosting, setIsPosting] = useState(false)
 
   const { user } = useAuth()
 
-  const checkTextLimit = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  // const checkTextLimit = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const checkTextLimit = (event: { target: { value: string } }) => {
     const text = event.target.value
     if (text.length <= 300) {
-      setPost(text)
+      setTextPost(text)
     }
   }
 
@@ -42,11 +43,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
 
   const handlePost = async () => {
     setIsPosting(true)
-    const response = await PostAPI.createPost({ text: post, base64Image })
+    const response = await PostAPI.createPost({ text: textPost, base64Image })
 
     callback(response)
     setIsPosting(false)
-    setPost('')
+    setTextPost('')
     setBase64Image(undefined)
     setIsPosting(false)
   }
@@ -70,7 +71,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
           fullWidth
           multiline
           minRows={3}
-          value={post}
+          value={textPost}
           placeholder={translate('tellSomething')}
         />
 
@@ -95,7 +96,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
         />
 
         <Button
-          disabled={!(post.length >= 1 || base64Image) || isPosting}
+          disabled={!(textPost.length >= 1 || base64Image) || isPosting}
           type='submit'
           variant='contained'
           sx={{ mt: 1 }}
@@ -109,8 +110,8 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
         </Button>
 
         <ProgressCircle
-          progress={(post.length / 300) * 100}
-          charsRemain={300 - post.length}
+          progress={(textPost.length / 300) * 100}
+          charsRemain={300 - textPost.length}
         />
       </Options>
     </CreatePostLayout>

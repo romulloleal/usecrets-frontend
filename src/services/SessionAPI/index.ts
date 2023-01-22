@@ -13,25 +13,25 @@ const authenticate = async ({
   login: string
   password: string
 }): Promise<IAuthState> => {
-  const response = await api.post<IAuthState>(`${path}/authenticate`, {
+  const response = await api.post(`${path}/authenticate`, {
     login,
     password,
   })
 
-  SocketIo.joinRoom(response.data.user.profile.userName)
+  SocketIo.joinRoom(response.data.data.user.profile.userName)
 
-  return response.data
+  return response.data.data
 }
 
 const getAuthenticatedUserProfile = async (): Promise<IUser> => {
-  const response = await api.get<IUser>(
+  const response = await api.get(
     `${path}/getAuthenticatedUserProfile`,
     await getAccessToken()
   )
 
-  SocketIo.joinRoom(response.data.profile.userName)
+  SocketIo.joinRoom(response.data.data.profile.userName)
 
-  return response.data
+  return response.data.data
 }
 
 const refreshAccessToken = async (): Promise<{
@@ -42,7 +42,7 @@ const refreshAccessToken = async (): Promise<{
     refreshToken: localStorage.getItem('@uSecrets:refreshToken'),
   })
 
-  return response.data
+  return response.data.data
 }
 
 export default {

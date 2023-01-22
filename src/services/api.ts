@@ -28,12 +28,11 @@ const AxiosInterceptor = ({ children }: any) => {
     )
     api.interceptors.response.use(
       async (response) => {
-        const { data } = response
-        const { message } = data
+        const { message } = response.data
         if (message) {
           toast.success(translate(message))
         }
-        return data
+        return response
       },
       async (error) => {
         const originalConfig = error.config

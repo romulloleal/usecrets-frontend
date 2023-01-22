@@ -17,7 +17,7 @@ const followUser = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const unfollowUser = async ({

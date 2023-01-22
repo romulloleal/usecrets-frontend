@@ -6,7 +6,9 @@ import SessionAPI from '~/services/SessionAPI'
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext)
 
-const AuthProvider: React.FC = ({ children }) => {
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [data, setData] = useState<IAuthState>(() => {
     const user = localStorage.getItem('@uSecrets:user')
     const accessToken = localStorage.getItem('@uSecrets:accessToken')

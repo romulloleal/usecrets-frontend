@@ -17,7 +17,9 @@ import {
   MainContainer,
 } from './style'
 
-const DefaultLayout: React.FC = ({ children }) => {
+const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { user } = useAuth()
 
   return (

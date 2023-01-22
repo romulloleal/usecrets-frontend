@@ -11,7 +11,9 @@ interface IThemeContext {
 
 const ThemeContext = createContext<IThemeContext>({} as IThemeContext)
 
-const ThemeProvider: React.FC = ({ children }) => {
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const currentTheme = localStorage.getItem('@uSecrets:theme')
 
   const [theme, setTheme] = useState<DefaultTheme>(() => {

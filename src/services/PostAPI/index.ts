@@ -26,7 +26,7 @@ const createPost = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const getPostsFromFollowedProfiles = async ({
@@ -42,7 +42,7 @@ const getPostsFromFollowedProfiles = async ({
     await getAccessToken()
   )
 
-  return response.data
+  return response.data.data
 }
 
 const explore = async ({
@@ -57,7 +57,7 @@ const explore = async ({
     loggedUserId,
   })
 
-  return response.data
+  return response.data.data
 }
 
 const getProfilePosts = async ({
@@ -75,7 +75,7 @@ const getProfilePosts = async ({
     loggedUserId,
   })
 
-  return response.data
+  return response.data.data
 }
 
 const likeUnLikePost = async ({
