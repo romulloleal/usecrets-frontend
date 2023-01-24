@@ -1,3 +1,4 @@
+import { Imention } from './IMention'
 import { IProfile } from './IProfile'
 
 export interface IPost {
@@ -8,4 +9,5 @@ export interface IPost {
   totalLikes: number
   liked: boolean
   createdAt: string
+  mentions?: Imention[]
 }

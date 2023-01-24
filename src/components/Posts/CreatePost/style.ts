@@ -18,15 +18,10 @@ export const CreatePostLayout = styled(Box)`
 export const TextContent = styled.div`
   position: relative;
   width: 100%;
-  max-height: 600px;
-  overflow-y: auto;
+  min-height: 50px;
   border: 1px solid ${({ theme }) => theme.inputBorder};
   padding: 2px 10px;
   border-radius: 5px;
-
-  textarea {
-    color: ${({ theme }) => theme.cardTextColor};
-  }
 `
 
 export const PostFile = styled.div`

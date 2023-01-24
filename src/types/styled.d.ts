@@ -13,5 +13,6 @@ declare module 'styled-components' {
     inputBorder: string
     arrowSelectColor: string
     searchInput: string
+    boxShadow: string
   }
 }

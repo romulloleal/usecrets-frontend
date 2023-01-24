@@ -13,6 +13,7 @@ export const lightTheme: DefaultTheme = {
   inputBorder: 'rgba(0, 0, 0, 0.23)',
   arrowSelectColor: 'rgba(0, 0, 0, 0.54)',
   searchInput: '#efefef',
+  boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
 }
 export const darkTheme: DefaultTheme = {
   body: '#181818',
@@ -24,4 +25,5 @@ export const darkTheme: DefaultTheme = {
   inputBorder: 'rgba(999, 999, 999, 0.50)',
   arrowSelectColor: 'rgba(999, 999, 999, 0.70)',
   searchInput: '#252525',
+  boxShadow: '0 0 8px rgba(999, 999, 999, 0.2)',
 }

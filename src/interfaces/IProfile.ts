@@ -1,5 +1,6 @@
 export interface IProfile {
   id: string
+  userId: string
   userName: string
   profileImage: string
   coverImage: string

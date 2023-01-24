@@ -92,10 +92,41 @@ const likeUnLikePost = async ({
   )
 }
 
+const deletePost = async ({ postId }: { postId: string }): Promise<void> => {
+  await api.post(
+    `${path}/deletePost`,
+    {
+      postId,
+    },
+    await getAccessToken()
+  )
+}
+
+const getPost = async ({
+  postId,
+  loggedUserId,
+}: {
+  postId: string
+  loggedUserId: string
+}): Promise<{
+  post: IPost | undefined
+  postNotFound: boolean
+  privatePost: boolean
+}> => {
+  const response = await api.post(`${path}/getPost`, {
+    postId,
+    loggedUserId,
+  })
+
+  return response.data.data
+}
+
 export default {
   createPost,
   getPostsFromFollowedProfiles,
   explore,
   getProfilePosts,
   likeUnLikePost,
+  deletePost,
+  getPost,
 }

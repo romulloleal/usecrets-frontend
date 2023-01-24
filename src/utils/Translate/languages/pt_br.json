@@ -61,6 +61,7 @@
   "startsFollowYou": "começou a seguiu você",
   "acceptsYourFollow": "aceitou sua solicitação para seguir",
   "likeYourPost": "curtiu sua postagem",
+  "mentionYouOnAPost": "mencionou você em um post",
   "accept": "Aceitar",
   "delete": "Excluir",
   "oopsNoPosts": "Oops! Siga perfis para ver o que eles compartilham",
@@ -70,5 +71,7 @@
   "theme": "Tema",
   "profileUpdated": "Perfil atualizado",
   "incorrectCurrentPassword": "Senha atual está incorreta",
-  "notifications": "Notificações"
+  "notifications": "Notificações",
+  "markAllAsRead": "Marcar todas como lidas",
+  "report": "Reportar"
 }

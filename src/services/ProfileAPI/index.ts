@@ -121,6 +121,23 @@ const getNotifications = async ({
   return response.data.data
 }
 
+const markNotificationAsRead = async ({
+  notificationId,
+  markAll,
+}: {
+  notificationId?: string
+  markAll?: boolean
+}): Promise<void> => {
+  await api.post(
+    `${path}/markNotificationAsRead`,
+    {
+      notificationId,
+      markAll,
+    },
+    await getAccessToken()
+  )
+}
+
 export default {
   editProfile,
   getUserProfile,
@@ -130,4 +147,5 @@ export default {
   deleteProfileImage,
   deleteCoverImage,
   getNotifications,
+  markNotificationAsRead,
 }

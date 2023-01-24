@@ -14,12 +14,14 @@ const Posts = ({
   loading,
   loadPosts,
   hidePostHeader,
+  deletePost,
 }: {
   posts: IPost[]
   hasMore: boolean
   loading: boolean
   loadPosts: ({ skip }: { skip: number }) => Promise<void>
   hidePostHeader?: boolean
+  deletePost?: (postId: string) => void
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
@@ -65,7 +67,12 @@ const Posts = ({
         columnWidth={windowWidth <= 600 ? '100%' : 220}
       >
         {posts.map((post) => (
-          <Post key={post.id} {...post} hidePostHeader={hidePostHeader} />
+          <Post
+            key={post.id}
+            {...post}
+            hidePostHeader={hidePostHeader}
+            deletePost={deletePost}
+          />
         ))}
       </StackGrid>
     </InfiniteScroll>

@@ -2,6 +2,7 @@ import { IAuthContext } from '~/interfaces/IAuthContext'
 import { IPost } from '~/interfaces/IPost'
 
 import { IAuthState } from './IAuthState'
+import { Imention } from './IMention'
 import { INotifications } from './INotifications'
 import { IProfile } from './IProfile'
 import { IRoute } from './IRoute'
@@ -15,4 +16,5 @@ export type {
   IAuthState,
   IAuthContext,
   INotifications,
+  Imention,
 }

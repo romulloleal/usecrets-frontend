@@ -61,6 +61,7 @@
   "startsFollowYou": "starts follow you",
   "acceptsYourFollow": "accepts your follow request",
   "likeYourPost": "like your post",
+  "mentionYouOnAPost": "mention you on a post",
   "accept": "Accept",
   "delete": "Delete",
   "oopsNoPosts": "Oops! Follow profiles to see what they share",
@@ -70,5 +71,7 @@
   "theme": "Theme",
   "profileUpdated": "Updated profile",
   "incorrectCurrentPassword": "Incorrect current password",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "markAllAsRead": "Mark all as read",
+  "report": "Report"
 }

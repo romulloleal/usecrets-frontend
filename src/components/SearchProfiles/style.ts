@@ -45,7 +45,7 @@ export const SearchResults = styled.div`
     overflow-y: scroll;
     background-color: ${({ theme }) => theme.cardColor};
     top: 45px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.boxShadow};
   }
 `
 

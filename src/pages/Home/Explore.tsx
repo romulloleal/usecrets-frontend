@@ -29,6 +29,12 @@ const Explore: React.FC = () => {
     setPosts([newPost, ...posts])
   }
 
+  const deletePost = async (postId: string) => {
+    const reloadPosts = posts.filter((post) => post.id !== postId)
+    setPosts(reloadPosts)
+    await PostAPI.deletePost({ postId })
+  }
+
   return (
     <>
       <CreatePost callback={createPost} />
@@ -37,6 +43,7 @@ const Explore: React.FC = () => {
         hasMore={hasMore}
         loadPosts={loadPosts}
         loading={loading}
+        deletePost={deletePost}
       />
     </>
   )

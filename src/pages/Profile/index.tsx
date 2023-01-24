@@ -76,6 +76,12 @@ const Profile: React.FC = () => {
     setHasMore(response.hasMore)
   }
 
+  const deletePost = async (postId: string) => {
+    const reloadPosts = posts.filter((post) => post.id !== postId)
+    setPosts(reloadPosts)
+    await PostAPI.deletePost({ postId })
+  }
+
   return (
     <ProfileContainer>
       <ProfileHeader
@@ -128,7 +134,7 @@ const Profile: React.FC = () => {
             hasMore={hasMore}
             loadPosts={loadPosts}
             loading={loading}
-            hidePostHeader
+            deletePost={deletePost}
           />
         </ProfilePostsLayout>
       )}

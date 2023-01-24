@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 
 import NiceModal from '@ebay/nice-modal-react'
-import { Button, CircularProgress, TextField } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import { FcAddImage } from 'react-icons/fc'
 import { GrClose } from 'react-icons/gr'
 
+import InputMention from '~/components/InputMention'
 import ProgressCircle from '~/components/ProgressCircle'
 import { useAuth } from '~/providers/Auth'
 import PostAPI from '~/services/PostAPI'
@@ -27,13 +28,39 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
   const [base64Image, setBase64Image] = useState<string | undefined>()
   const [isPosting, setIsPosting] = useState(false)
 
+  // for character count
+  const [cleanText, setCleanText] = useState('')
+
   const { user } = useAuth()
 
-  // const checkTextLimit = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-  const checkTextLimit = (event: { target: { value: string } }) => {
-    const text = event.target.value
+  const checkTextLimit = (text: string) => {
+    // replace loading state for empty
+    text = text.replace(`{"id": "0", "userName": "loading"} `, '@')
+
+    const tokenizedText = text
+    // transform tokenized userName and id to normal string
+    const searchMentions = text.match(/\{(.*?)\}/g)
+    if (searchMentions) {
+      const mentionProfiles = searchMentions.map((mention) => {
+        const mentionParsed = JSON.parse(mention)
+        text = text.replace(
+          `"id": "${mentionParsed.id}", "userName": "${mentionParsed.userName}"`,
+          mentionParsed.id
+        )
+        return {
+          id: mentionParsed.id,
+          userName: mentionParsed.userName,
+        }
+      })
+
+      mentionProfiles.map((profile) => {
+        text = text.replace(`{${profile.id}}`, profile.userName)
+        return []
+      })
+    }
     if (text.length <= 300) {
-      setTextPost(text)
+      setCleanText(text)
+      setTextPost(tokenizedText)
     }
   }
 
@@ -43,13 +70,17 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
 
   const handlePost = async () => {
     setIsPosting(true)
-    const response = await PostAPI.createPost({ text: textPost, base64Image })
+    try {
+      const response = await PostAPI.createPost({ text: textPost, base64Image })
 
-    callback(response)
-    setIsPosting(false)
-    setTextPost('')
-    setBase64Image(undefined)
-    setIsPosting(false)
+      callback(response)
+      setIsPosting(false)
+      setTextPost('')
+      setBase64Image(undefined)
+      setIsPosting(false)
+    } catch {
+      setIsPosting(false)
+    }
   }
 
   const onPaste = async (event: React.ClipboardEvent<HTMLDivElement>) => {
@@ -60,18 +91,10 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
 
   return (
     <CreatePostLayout sx={{ mb: 1 }}>
-      <TextContent>
-        <TextField
-          onChange={checkTextLimit}
-          variant='standard'
-          InputProps={{
-            disableUnderline: true,
-          }}
-          onPaste={onPaste}
-          fullWidth
-          multiline
-          minRows={3}
-          value={textPost}
+      <TextContent onPaste={onPaste}>
+        <InputMention
+          text={textPost}
+          inputCallback={checkTextLimit}
           placeholder={translate('tellSomething')}
         />
 
@@ -110,8 +133,8 @@ const CreatePost: React.FC<CreatePostProps> = ({ callback }) => {
         </Button>
 
         <ProgressCircle
-          progress={(textPost.length / 300) * 100}
-          charsRemain={300 - textPost.length}
+          progress={(cleanText.length / 300) * 100}
+          charsRemain={300 - cleanText.length}
         />
       </Options>
     </CreatePostLayout>

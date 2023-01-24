@@ -20,13 +20,26 @@ export const NotificationsContainer = styled.div`
     background-color: ${({ theme }) => theme.cardColor};
     top: 45px;
     right: -20px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.boxShadow};
   }
 `
 
 export const Title = styled.div`
   font-size: 1.3em;
   font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+`
+
+export const MarkAllAsRead = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.75em;
+  cursor: pointer;
+
+  &:hover {
+    border-bottom: 0.5px solid ${({ theme }) => theme.cardTextColor};
+  }
 `
 
 export const NotificationsItem = styled.div`
@@ -38,6 +51,7 @@ export const NotificationsItem = styled.div`
   flex-wrap: nowrap;
   gap: 10px;
   position: relative;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
@@ -78,6 +92,15 @@ export const ProfileImage = styled(Link)`
 export const NotificationDescription = styled.div`
   display: flex;
   align-items: center;
+
+  .newNotification {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    background-color: #fa4848;
+  }
 `
 
 export const Button = styled.button<{ bgColor: string }>`

@@ -16,12 +16,14 @@ const Menu: React.FC = () => {
   const { user, signOut } = useAuth()
 
   const [showNotifications, setShowNotifications] = useState(false)
-  const [newNotificaion, setNewNotificaion] = useState(false)
+  const [newNotification, setNewNotification] = useState(
+    user?.totalNotificatons > 0
+  )
 
   const notificationsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    SocketIo.newNotification({ setNewNotificaion })
+    SocketIo.newNotification({ setNewNotification })
 
     // close notifications when clicked out
     const handleClickOutside = (event: Event) => {
@@ -51,12 +53,15 @@ const Menu: React.FC = () => {
             <Box className='notifications' ref={notificationsRef}>
               <IoNotificationsOutline
                 onClick={() => {
-                  setNewNotificaion(false)
+                  setNewNotification(false)
                   setShowNotifications(!showNotifications)
                 }}
               />
-              <NotificationsComponent show={showNotifications} />
-              {newNotificaion && <div className='newNotifications' />}
+              <NotificationsComponent
+                show={showNotifications}
+                setShowNotifications={setShowNotifications}
+              />
+              {newNotification && <div className='newNotifications' />}
             </Box>
 
             <Link to={`/profile/${user.profile.userName}`}>
@@ -85,11 +90,11 @@ const Menu: React.FC = () => {
               className='notifications'
               onClick={() => {
                 window.scrollTo(0, 0)
-                setNewNotificaion(false)
+                setNewNotification(false)
               }}
             >
               <IoNotificationsOutline />
-              {newNotificaion && <div className='newNotifications' />}
+              {newNotification && <div className='newNotifications' />}
             </Link>
 
             <Link to={`/profile/${user.profile.userName}`}>

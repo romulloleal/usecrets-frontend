@@ -5,13 +5,15 @@ export enum NotificationTypes {
   FOLLOW_REQUEST = 'followRequest',
   FOLLOW_ACCEPTED = 'followAccepted',
   POST_LIKED = 'postLiked',
+  POST_MENTION = 'postMention',
 }
 
 export interface INotifications {
   id: string
   fromUser: IProfile
-  notificationType: NotificationTypes
+  type: NotificationTypes
   newNotification: boolean
   followId: string
   likeId: string
+  postId: string
 }

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { CircularProgress } from '@mui/material'
-import { FaUser } from 'react-icons/fa'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { Link } from 'react-router-dom'
 
 import { INotifications } from '~/interfaces'
 import { NotificationTypes } from '~/interfaces/INotifications'
@@ -11,16 +9,13 @@ import FollowAPI from '~/services/FollowAPI'
 import ProfileAPI from '~/services/ProfileAPI'
 import { translate } from '~/utils/Translate'
 
-import {
-  NotificationsContainer,
-  NotificationsItem,
-  Button,
-  ProfileImage,
-  Title,
-  NotificationDescription,
-} from './style'
+import NotificationOption from './NotificationOption'
+import { MarkAllAsRead, NotificationsContainer, Title } from './style'
 
-const NotificationsComponent: React.FC<{ show: boolean }> = ({ show }) => {
+const NotificationsComponent: React.FC<{
+  show: boolean
+  setShowNotifications?: (value: boolean) => void
+}> = ({ show, setShowNotifications }) => {
   const [notifications, setNotifications] = useState<INotifications[]>([])
   const [hasMore, setHasMore] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
@@ -42,35 +37,48 @@ const NotificationsComponent: React.FC<{ show: boolean }> = ({ show }) => {
   }
 
   const acceptFollowRequest = async (followRequestId: string) => {
-    await FollowAPI.acceptRejectFollowerRequest({
-      followRequestId,
-      action: 'accept',
-    })
-
     const updateNotifications = notifications.map((notification) => {
       if (notification.followId === followRequestId) {
         return {
           ...notification,
-          notificationType: NotificationTypes.NEW_FOLLOW,
+          type: NotificationTypes.NEW_FOLLOW,
+          newNotification: false,
         }
       }
       return notification
     })
 
     setNotifications(updateNotifications)
+
+    await FollowAPI.acceptRejectFollowerRequest({
+      followRequestId,
+      action: 'accept',
+    })
   }
 
   const deleteFollowRequest = async (followRequestId: string) => {
-    await FollowAPI.acceptRejectFollowerRequest({
-      followRequestId,
-      action: 'reject',
-    })
-
     const updateNotifications = notifications.filter((notification) => {
       return notification.followId !== followRequestId
     })
 
     setNotifications(updateNotifications)
+
+    await FollowAPI.acceptRejectFollowerRequest({
+      followRequestId,
+      action: 'reject',
+    })
+  }
+
+  const handleNotifications = () => {
+    setNotifications([])
+    if (setShowNotifications) {
+      setShowNotifications(false)
+    }
+  }
+
+  const markAllAsread = async () => {
+    handleNotifications()
+    await ProfileAPI.markNotificationAsRead({ markAll: true })
   }
 
   if (!show) {
@@ -78,7 +86,12 @@ const NotificationsComponent: React.FC<{ show: boolean }> = ({ show }) => {
   }
   return (
     <NotificationsContainer id='notificationContainer'>
-      <Title>{translate('notifications')}</Title>
+      <Title>
+        {translate('notifications')}
+        <MarkAllAsRead onClick={markAllAsread}>
+          {translate('markAllAsRead')}
+        </MarkAllAsRead>
+      </Title>
       {loading && <CircularProgress size={20} color='primary' />}
       <InfiniteScroll
         className='hide-scroll-bar'
@@ -90,56 +103,24 @@ const NotificationsComponent: React.FC<{ show: boolean }> = ({ show }) => {
       >
         {notifications &&
           notifications.length > 0 &&
-          notifications.map((notification) => (
-            <NotificationsItem key={notification.id}>
-              <ProfileImage to={`/profile/${notification.fromUser.userName}`}>
-                {notification.fromUser.profileImage ? (
-                  <img
-                    src={`${process.env.REACT_APP_IMAGES_REPOSITORY_URL}/files/profile/${notification.fromUser.profileImage}`}
-                    width={40}
-                    height={40}
-                    alt={notification.fromUser.userName}
-                  />
-                ) : (
-                  <FaUser />
-                )}
-              </ProfileImage>
-              <NotificationDescription>
-                <Link
-                  to={`/profile/${notification.fromUser.userName}`}
-                  className='fromUser'
-                >
-                  {notification.fromUser.userName}
-                </Link>
-                {notification.notificationType ===
-                  NotificationTypes.FOLLOW_REQUEST && (
-                  <>
-                    <Button
-                      type='button'
-                      bgColor='#1565c0'
-                      onClick={() => acceptFollowRequest(notification.followId)}
-                    >
-                      {translate('accept')}
-                    </Button>
-                    <Button
-                      type='button'
-                      bgColor='#333333'
-                      onClick={() => deleteFollowRequest(notification.followId)}
-                    >
-                      {translate('delete')}
-                    </Button>
-                  </>
-                )}
-                {notification.notificationType ===
-                  NotificationTypes.NEW_FOLLOW && translate('startsFollowYou')}
-                {notification.notificationType ===
-                  NotificationTypes.FOLLOW_ACCEPTED &&
-                  translate('acceptsYourFollow')}
-                {notification.notificationType ===
-                  NotificationTypes.POST_LIKED && translate('likeYourPost')}
-              </NotificationDescription>
-            </NotificationsItem>
-          ))}
+          notifications.map((notification) =>
+            notification.type === NotificationTypes.FOLLOW_REQUEST ? (
+              <NotificationOption.FollowRequest
+                key={notification.id}
+                fromUser={notification.fromUser}
+                followId={notification.followId}
+                acceptFollowRequest={acceptFollowRequest}
+                deleteFollowRequest={deleteFollowRequest}
+              />
+            ) : (
+              <NotificationOption.OthersNotifications
+                key={notification.id}
+                notification={notification}
+                notificationType={notification.type}
+                closeNotifications={handleNotifications}
+              />
+            )
+          )}
       </InfiniteScroll>
     </NotificationsContainer>
   )

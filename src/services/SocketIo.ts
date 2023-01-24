@@ -13,12 +13,12 @@ const joinRoom = (userName: string) => {
 }
 
 const newNotification = ({
-  setNewNotificaion,
+  setNewNotification,
 }: {
-  setNewNotificaion: (value: boolean) => void
+  setNewNotification: (value: boolean) => void
 }) => {
   socket.on('newNotification', () => {
-    setNewNotificaion(true)
+    setNewNotification(true)
   })
 }
 

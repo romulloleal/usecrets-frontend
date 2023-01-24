@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const PostContainer = styled.div`
@@ -16,15 +17,56 @@ export const PostContainer = styled.div`
 `
 
 export const Header = styled.div`
-  width: 100%;
+  position: relative;
+  @media (min-width: 600px) {
+    border-radius: 8px 8px 0 0;
+  }
+`
+
+export const HeaderLink = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+`
 
-  @media (min-width: 600px) {
-    border-radius: 8px 8px 0 0;
+export const PostOptions = styled.div`
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+
+  svg {
+    font-size: 1.2em;
+  }
+`
+
+export const Options = styled.div`
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+  width: 150px;
+  top: 15px;
+  border-radius: 3px;
+
+  transition: all 0.2s ease;
+
+  background-color: ${({ theme }) => theme.cardColor};
+  color: ${({ theme }) => theme.cardTextColor};
+
+  box-shadow: ${({ theme }) => theme.boxShadow};
+`
+
+export const OptionItem = styled.div`
+  width: 100%;
+  text-align: center;
+  padding: 5px 0;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `
 
@@ -60,6 +102,12 @@ export const Author = styled.div`
 export const ContentText = styled.div`
   padding: 5px;
   white-space: pre-wrap;
+
+  .mention {
+    padding: 1px;
+    border-radius: 3px;
+    background-color: rgb(21, 101, 192, 0.3);
+  }
 `
 
 export const PostImage = styled.img`
@@ -67,7 +115,7 @@ export const PostImage = styled.img`
   cursor: pointer;
 `
 
-export const PostOptions = styled.div`
+export const PostInteractions = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
