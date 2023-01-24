@@ -73,5 +73,8 @@
   "incorrectCurrentPassword": "Senha atual está incorreta",
   "notifications": "Notificações",
   "markAllAsRead": "Marcar todas como lidas",
-  "report": "Reportar"
+  "report": "Reportar",
+  "opsPostNotFound": "Ops, post não encontrado",
+  "postFromPrivateAcc": "Este post pertence a uma conta privada",
+  "visitProfile": "Visitar perfil"
 }

@@ -73,5 +73,8 @@
   "incorrectCurrentPassword": "Incorrect current password",
   "notifications": "Notifications",
   "markAllAsRead": "Mark all as read",
-  "report": "Report"
+  "report": "Report",
+  "opsPostNotFound": "Ops, post not found",
+  "postFromPrivateAcc": "This post belongs to a private account",
+  "visitProfile": "Visit profile"
 }

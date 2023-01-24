@@ -1,4 +1,4 @@
-import { IPost } from '~/interfaces'
+import { IPost, IProfile } from '~/interfaces'
 import { api } from '~/services/api'
 
 import { getAccessToken } from '../getTokens'
@@ -110,6 +110,7 @@ const getPost = async ({
   loggedUserId: string
 }): Promise<{
   post: IPost | undefined
+  author: IProfile | undefined
   postNotFound: boolean
   privatePost: boolean
 }> => {
