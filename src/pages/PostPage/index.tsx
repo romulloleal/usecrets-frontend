@@ -35,7 +35,7 @@ const PostPage: React.FC = () => {
     setLoading(true)
     const response = await PostAPI.getPost({
       postId: postId as string,
-      loggedUserId: user.id,
+      loggedUserId: user?.id,
     })
 
     setPost(response.post)
