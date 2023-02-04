@@ -42,7 +42,7 @@ const Post = ({
   deletePost,
 }: CardProps) => {
   const [isLiked, setIsLiked] = useState(liked)
-  const [totalLikes, setTotalLikes] = useState(likes)
+  const [totalLikes, setTotalLikes] = useState(likes || 0)
   const [openPostOptions, setOpenPostOptions] = useState(false)
   const { user } = useAuth()
 
