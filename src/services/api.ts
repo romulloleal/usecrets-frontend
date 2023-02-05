@@ -20,7 +20,18 @@ const AxiosInterceptor = ({ children }: any) => {
     api.interceptors.request.use(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (config: any) => {
-        return config
+        // this code interrupts the request when detect bots
+        const controller = new AbortController()
+        const { webdriver } = navigator
+
+        if (webdriver) {
+          controller.abort()
+        }
+
+        return {
+          ...config,
+          signal: controller.signal,
+        }
       },
       (error) => {
         return Promise.reject(error)
